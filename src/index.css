@@ -1,0 +1,12 @@
+body {
+  height: 100vh;
+  background: #0f2027;
+  background: -webkit-linear-gradient(to right, #2c5364, #203a43, #0f2027);
+  background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+}
+
+.container {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 10px;
+}
