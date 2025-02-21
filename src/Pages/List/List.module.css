@@ -1,0 +1,86 @@
+.pageContainer {
+  display: grid;
+  row-gap: 20px;
+}
+
+.namesContainer {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.namesLabel {
+  font-size: 20px;
+  color: white;
+}
+
+.namesSelect {
+  font-size: 20px;
+}
+
+.namesButton {
+  font-size: 20px;
+  background-color: transparent;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+  padding-inline: 20px;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s linear;
+}
+
+.namesButton:hover {
+  color: #294d5c;
+  border-color: #294d5c;
+  background-color: white;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  list-style-type: none;
+}
+
+.listItem {
+  padding: 20px;
+  display: grid;
+  justify-items: center;
+  row-gap: 10px;
+  color: white;
+  min-height: 380px;
+  border: 1px solid lightslategrey;
+  border-radius: 10px;
+  transition: all 0.2s linear;
+}
+
+.listItem:hover {
+  color: #294d5c;
+  border-color: #294d5c;
+  background-color: lightgrey;
+}
+
+.listItemImage {
+  border-radius: 10px;
+}
+
+.listItemTitle {
+  margin: 0;
+  font-size: 20px;
+  text-align: center;
+}
+
+.listItemDescription p {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.listItemAuthor {
+  margin: 0;
+  font-size: 14px;
+}

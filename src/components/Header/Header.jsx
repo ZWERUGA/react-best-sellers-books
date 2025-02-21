@@ -7,7 +7,7 @@ function Header() {
   return (
     <nav className={styles.headerContainer}>
       <ul className={styles.headerList}>
-        <HeaderLink path={routes.home} title={"Best Sellers Names"} />
+        <HeaderLink path={routes.home} title={"Best Sellers List"} />
       </ul>
     </nav>
   );

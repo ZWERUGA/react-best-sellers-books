@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 
-function BestSellersNames() {
+function useNames() {
   const [names, setNames] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [selectedName, setSelectedName] = useState("");
+  const [fetchError, setFetchError] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -13,27 +14,24 @@ function BestSellersNames() {
       .then((response) => response.json())
       .then((data) => {
         const namesArray = [];
-        data.results.forEach((item) => namesArray.push(item.display_name));
+        data.results.forEach(({ list_name }) => namesArray.push(list_name));
         setNames(namesArray);
         setSelectedName(namesArray[0]);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setFetchError(true);
+        setLoading(false);
+      });
   }, []);
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  return (
-    <select value={selectedName} name="names" onChange={(e) => setSelectedName(e.target.value)}>
-      {names.map((name, index) => (
-        <option key={index} value={name}>
-          {name}
-        </option>
-      ))}
-    </select>
-  );
+  return {
+    names,
+    isLoading,
+    fetchError,
+    selectedName,
+    setSelectedName,
+  };
 }
 
-export default BestSellersNames;
+export default useNames;
