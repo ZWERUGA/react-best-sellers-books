@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_KEY } from "../consts";
 
 function useNames() {
   const [names, setNames] = useState([]);
@@ -9,7 +10,7 @@ function useNames() {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=aIE8FOr4UDycA3Qu8GwQ0Lxo9zn6zg71`
+      `https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=${API_KEY}`
     )
       .then((response) => response.json())
       .then((data) => {

@@ -1,7 +1,12 @@
 import { useState } from "react";
 import useNames from "../../hooks/useNames";
+import Spinner from "../../components/Spinner/Spinner";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 import styles from "./List.module.css";
+import { API_KEY } from "../../consts";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+import { Link } from "react-router";
 
 function List() {
   const [books, setBooks] = useState([]);
@@ -20,23 +25,28 @@ function List() {
     try {
       setLoadingBooks(true);
       const response = await fetch(
-        `https://api.nytimes.com/svc/books/v3/lists/current/${selectedName}.json?api-key=aIE8FOr4UDycA3Qu8GwQ0Lxo9zn6zg71`
+        `https://api.nytimes.com/svc/books/v3/lists/current/${selectedName}.json?api-key=${API_KEY}`
       );
       const json = await response.json();
       setBooks(json.results.books);
       setBestsellersDate(json.results.bestsellers_date);
       setLoadingBooks(false);
-    } catch {
-      setFetchError(true);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   if (isLoadingNames) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className={styles.listSpinner}>
+        <Spinner />
+      </div>
+    );
   }
 
   return (
     <div className={styles.pageContainer}>
+      {/* Best Sellers Names */}
       {!fetchErrorNames ? (
         <div className={styles.namesContainer}>
           <label htmlFor="names" className={styles.namesLabel}>
@@ -58,31 +68,41 @@ function List() {
           <button type="button" onClick={handleButtonClick} className={styles.namesButton}>
             Get list
           </button>
+          {books.length > 0 && (
+            <span className={styles.bestSellersDate}>Bestsellers list date: {bestsellersDate}</span>
+          )}
         </div>
       ) : (
-        <h1>Fetch error names...</h1>
+        <ErrorMessage message="Error fetching best sellers names..." />
       )}
+
+      {/* Best Sellers Books */}
       {!isLoadingBooks ? (
         <ul className={styles.list}>
           {books.map((book) => (
             <li key={book.primary_isbn10} className={styles.listItem}>
-              <img
-                src={book.book_image}
-                alt={book.title}
-                width={150}
-                height={200}
-                className={styles.listItemImage}
-              />
-              <h2 className={styles.listItemTitle}>{book.title}</h2>
-              <div className={styles.listItemDescription}>
-                <p>{book.description}</p>
-              </div>
-              <h3 className={styles.listItemAuthor}>{book.author}</h3>
+              <Link to={book.amazon_product_url} className={styles.listLink} target="_blank">
+                <img
+                  src={book.book_image}
+                  alt={book.title}
+                  width={150}
+                  height={200}
+                  className={styles.listItemImage}
+                />
+                <h2 className={styles.listItemTitle}>{book.title}</h2>
+                <div className={styles.listItemDescription}>
+                  <p>{book.description}</p>
+                </div>
+                <h3 className={styles.listItemAuthor}>{book.author}</h3>
+                <FaExternalLinkAlt className={styles.listItemLinkIcon} color="#294d5c" />
+              </Link>
             </li>
           ))}
         </ul>
       ) : (
-        <h1>Loading books...</h1>
+        <div className={styles.listSpinner}>
+          <Spinner />
+        </div>
       )}
     </div>
   );
